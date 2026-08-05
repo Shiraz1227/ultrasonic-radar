@@ -1,0 +1,2 @@
+# uav-ultrasonic-radar
+The purpose of this project is to create an ultrasonic radar system which can detect local objects alongside their distances removing noise. Originally, I was able to do this but it was subject to noise and the best solution I could think of was to trigger the ultrasonic waves 5 times in 300ms and get the mode distance reading. However, this is not entirely accurate therefore I also wanted to make a noise filter alongside moving from an LCD 16x2 display to using a python GUI to make it look more like a radar system. 
