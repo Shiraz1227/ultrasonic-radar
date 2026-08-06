@@ -1,0 +1,16 @@
+This is a text file which should be used to educate someone new to the project (and help the programmer keep track of things and why certain things are required).
+
+Overview:
+This uses the HC-SR04 Sensor. It has 2 piezoelectric tranducers (certain materials which expand and contract when a voltage is applied). One tranducer is the Transmitter 
+which is marked as T. This emitts 40kHz sound waves (above the limit of human hearing - the definition of ultrasonic) and the second tranducer is the reciever which is marked
+as R. This recieves 40kHz sound waves. Initially, the trigger pin is set to high for atleast 10 microseconds and then low. This voltage spike signals 8 distinct 40kHz waves to 
+be emitted. The moment this occurs, the echo pin is set to high, and the moment it recieves a reading, the echo pin is set to low. The time taken to transition from high to low
+represents the round trip that the sound wave had to take to be triggered and then recieved. Knowing the speed of sound, using speed distance and time formulae, you can calculate
+the distance of the object. 
+
+Current set-up/features:
+The HC-SR04 Sensor is attached (with blu tack) to a SG90 Servo Motor which is attached to the breadboard. It can rotate freely from 0 degrees to 180 degrees. There are 2 modes of
+rotation, automatic rotation and manual rotation. There is a toggle button which allows you to switch from each. In the code, you are also able to change how quick the automatic
+rotation is. By default, it is set to be in sync with the firing of the ultrasonic waves from the sensor. A picture of the set up is found in this repository. 
+
+Problems:
