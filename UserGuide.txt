@@ -21,8 +21,12 @@ to the sensor which adds to the travel time. I hope to solve this using multiple
 2. Electrical interference. For each step the servo takes, it results in current spikes. Although the circuit is in parallel, realistically, every power source/component has 
 a small amount of resistance (not negligible). The voltage in the rail = V from source - (I total * Resistance internal). So, a burst of 300 to 500 milliamps from the servo 
 multiplied my 1 ohm, for example, causes a temporary reduction in the power rail from 5V to 4.5V. To verify this, I have added modified code which measures the voltage of the 
-power rail alongside a screenshot with its fluctuations. Using analogRead, a value of 990 maps to about 4.8V. To see if these voltage spikes have any significance, I decided
-to 
+power rail alongside a screenshot with its fluctuations. Using analogRead, a value of 990 maps to about 4.8V. Theoretically, the sensor's internal amplifier relies on a steady
+5V which could lose sensitivity when the echo returns (and thus not amplify it). This could mean that the echo pin is high for much longer and record different values. 
+
+However, I decided to test this myself and found no significant causation between electric interference (voltage drops from 5V to 4.8V) and distance measured. Screenshots
+are provided in the electrical interference folder (I added 1020 onto the distance so the effects are more comparable). As a result, decoupling capacitors or any timing tweaks 
+in the code won't be significantly beneficial. As a result, the filtering will heavily revolve around the acoustics rather than hardware. 
 
 Objectives: to filter the data accurately which transfers over to quant/other related skills, develop python mathematical profficiency (whilst offloading work from the Arduino)
 and have a GUI radar system.

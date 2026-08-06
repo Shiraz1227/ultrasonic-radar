@@ -44,7 +44,7 @@ float captureDistance() {
 }
 
 void serialPrinter() {
-  Serial.print(distance);
+  Serial.print(distance + 1020);
   Serial.print(",");
   Serial.println(analogRead(powerRailVoltage));
 }

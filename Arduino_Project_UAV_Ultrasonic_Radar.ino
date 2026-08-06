@@ -42,10 +42,8 @@ float captureDistance() {
 }
 
 void serialPrinter() {
-  Serial.print("Distance of the object: ");
   Serial.print(distance);
   Serial.print(",");
-  Serial.print(" The angle of the servo is ");
   Serial.println(servoAngle);
 }
 
