@@ -14,3 +14,11 @@ rotation, automatic rotation and manual rotation. There is a toggle button which
 rotation is. By default, it is set to be in sync with the firing of the ultrasonic waves from the sensor. A picture of the set up is found in this repository. 
 
 Problems:
+With the ultrasonic sensor, there is noise. This comes from 2 factors: 1. Acoustics (how sound behaves). For example, if the sensor hits a surface at a slight angle, 
+those sound waves could be reflected away and thus not recieved by the echo pin. Furthermore, if it hits the desk, it may reflect off the desk, onto the object and then back 
+to the sensor which adds to the travel time. 2. Electrical interference. For each step the servo takes, it results in sharp current spikes. Although the circuit is in parallel,
+realistically, every power source/component has a small amount of resistance (not negligible). The voltage in the rail = V from source - (I total * Resistance internal). So, 
+a burst of 300 to 500 milliamps from the servo multiplied my 1 ohm for example causes a temporary reduction in the power rail from 5V to 4.5V. To verify this, I have branched 
+from main into electrical 
+
+Conclusion:
