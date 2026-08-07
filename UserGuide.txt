@@ -1,4 +1,4 @@
-This is a text file which should be used to educate someone new to the project (and help the programmer keep track of things and why certain things are required).
+This is a text file which should be used to educate someone new to the project (and involves personal reflection which can lead to future projects).
 
 Overview:
 This uses the HC-SR04 Sensor. It has 2 piezoelectric tranducers (certain materials which expand and contract when a voltage is applied). One tranducer is the Transmitter 
@@ -32,3 +32,8 @@ Objectives: to filter the data accurately which transfers over to quant/other re
 and have a GUI radar system.
 
 Conclusion:
+My main issue wasn't an occasional spike - it was the flickering from distances by the cm. As of writing, in the python terminal, it is mostly 7.12cm and it sometimes goes to
+6.16cm and 5.85cm. As a result, using A-level techniques I am familiar with, I am going to use the Hampel Filter. The problem with a regular normal distribution I found is that
+an outlier will change the mean and standard deviation. The Hampel filter is quite similiar but uses the median absolute deviation (MAD). Here is the example from Wikapedia that
+helped me understand it. Considering [1, 1, 2, 2, 4, 6, 9], it has a median of 2. The absolute deviations about 2 is [1, 1, 0, 0, 2, 4, 7] which in turn has a median of 1. So, 
+the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. [Talk about what valid outlier system worked.]
