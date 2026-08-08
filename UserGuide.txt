@@ -48,7 +48,8 @@ helped me understand it. Considering [1, 1, 2, 2, 4, 6, 9], it has a median of 2
 the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. Data which doesn't lie within plus or minus the standard deviation
 is completely filtered out. Then, the filtered distance is the average of the valid data. I also decided to plot the line graphs portraying the difference between the raw 
 measured distance and the filtered distance. When you run the program (with the correct set up), you can see the small blips and sometimes larger blips filtered out. I believe
-it was worthwhile because eliminating those small blips made the radar readings more coherent. A video is attached. 
+it was worthwhile because eliminating those small blips made the radar readings more coherent. There are a few small videos attached due to limits of the upload requirements on 
+github uploads. 
 
 My next project will involve using an MPU6050 IMU alongside filtering out noise with a Kalman filter. The MPU6050 will be attached to my wrist. This will work towards a 
 project which features a drone. I decided I want to learn how a Kalman filter works because it handles uncertainty well when compared to strict rules. Then, I will use baseline
