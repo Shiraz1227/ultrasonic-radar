@@ -34,7 +34,8 @@ piling up), I decided for it to only render each fifth reading. That gave a sign
 the fifth reading, it would take some time to render again (resulting in pile up from past data). So, I then stall the arduino serial printer function, once 5 pieces of data was
 sent, by the time it takes for the render to complete. This means we need to create a "handshake" between matplotlib's rendering and the serial printer. After completing this, 
 I realised that it doesn't have to be every 5, the arduino just needs to wait until the handshake. But, instead of getting rid of this feature of every 5, I have made a variable
-called increments which allows you to choose how much the onscreen radar increments in degrees.  
+called increments which allows you to choose how much the onscreen radar increments in degrees. I also later learned that using matplotlib is primarily used for static images
+which can be used to infer data - but it was nice to think of the handshake method and using queues to store recently recorded data. 
 
 Objectives: to filter the data accurately which transfers over to quant/other related skills, develop python mathematical profficiency (whilst offloading work from the Arduino)
 and have a GUI radar system.
@@ -44,4 +45,11 @@ My main issue wasn't an occasional spike - it was the flickering from distances 
 6.16cm and 5.85cm. As a result, using A-level techniques I am familiar with, I am going to use the Hampel Filter. The problem with a regular normal distribution I found is that
 an outlier will change the mean and standard deviation. The Hampel filter is quite similiar but uses the median absolute deviation (MAD). Here is the example from Wikapedia that
 helped me understand it. Considering [1, 1, 2, 2, 4, 6, 9], it has a median of 2. The absolute deviations about 2 is [1, 1, 0, 0, 2, 4, 7] which in turn has a median of 1. So, 
-the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. [Modify this and then done]. 
+the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. Data which doesn't lie within plus or minus the standard deviation
+is completely filtered out. Then, the filtered distance is the average of the valid data. I also decided to plot the line graphs portraying the difference between the raw 
+measured distance and the filtered distance. When you run the program (with the correct set up), you can see the small blips and sometimes larger blips filtered out. I believe
+it was worthwhile because eliminating those small blips made the radar readings more coherent. A video is attached. 
+
+My next project will involve using an MPU6050 IMU alongside filtering out noise with a Kalman filter. The MPU6050 will be attached to my wrist. This will work towards a 
+project which features a drone. I decided I want to learn how a Kalman filter works because it handles uncertainty well when compared to strict rules. Then, I will use baseline
+tests (for example if left by 150 degrees) and compare it with a neural network I hope to make. 
