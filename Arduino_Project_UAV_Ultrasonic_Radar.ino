@@ -10,7 +10,7 @@ float distance;
 int toggle = 0;
 int currentButtonState;
 int previousButtonState = 1;
-int automaticSweepTime = 10800.0; //60 * 180Minimum time required for one distance calculation per angle (sync). 
+int automaticSweepTime = 5400.0; //30 * 180Minimum time required for one distance calculation per angle (sync). 
 int sweepDirection = 1;
 unsigned long currentTime;
 unsigned long previousTimeTrigger = 0;
@@ -60,7 +60,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   currentTime = millis();
   toggleButton();
-  if ((currentTime - previousTimeTrigger) > 60) {
+  if ((currentTime - previousTimeTrigger) > 30) {
     distance = captureDistance();
     previousTimeTrigger = currentTime;
     serialPrinter();
