@@ -28,6 +28,14 @@ However, I decided to test this myself and found no significant causation betwee
 are provided in the electrical interference folder (I added 1020 onto the distance so the effects are more comparable). As a result, decoupling capacitors or any timing tweaks 
 in the code won't be significantly beneficial. As a result, the filtering will heavily revolve around the acoustics rather than hardware. 
 
+Whilst developing, another key problem I faced was an efficiency bug between matplotlib and my arduino. Matplotlib always seemed much behind the arduino indicating that the 
+arduino was sending more data than matplotlib could process. As a consequence, instead of trying to get matplotlib to render each reading (which meant old arduino readings
+piling up), I decided for it to only render each fifth reading. That gave a significant improvement, however, there was still some lag. This is because each time it recieved 
+the fifth reading, it would take some time to render again (resulting in pile up from past data). So, I then stall the arduino serial printer function, once 5 pieces of data was
+sent, by the time it takes for the render to complete. This means we need to create a "handshake" between matplotlib's rendering and the serial printer. After completing this, 
+I realised that it doesn't have to be every 5, the arduino just needs to wait until the handshake. But, instead of getting rid of this feature of every 5, I have made a variable
+called increments which allows you to choose how much the onscreen radar increments in degrees.  
+
 Objectives: to filter the data accurately which transfers over to quant/other related skills, develop python mathematical profficiency (whilst offloading work from the Arduino)
 and have a GUI radar system.
 
@@ -36,4 +44,4 @@ My main issue wasn't an occasional spike - it was the flickering from distances 
 6.16cm and 5.85cm. As a result, using A-level techniques I am familiar with, I am going to use the Hampel Filter. The problem with a regular normal distribution I found is that
 an outlier will change the mean and standard deviation. The Hampel filter is quite similiar but uses the median absolute deviation (MAD). Here is the example from Wikapedia that
 helped me understand it. Considering [1, 1, 2, 2, 4, 6, 9], it has a median of 2. The absolute deviations about 2 is [1, 1, 0, 0, 2, 4, 7] which in turn has a median of 1. So, 
-the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. [Talk about what valid outlier system worked.]
+the MAD is 1. Now we have calculated MAD, we multiply by 1.4826 to scale it to a regular standard deviation. [Modify this and then done]. 

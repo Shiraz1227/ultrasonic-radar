@@ -15,6 +15,7 @@ int sweepDirection = 1;
 unsigned long currentTime;
 unsigned long previousTimeTrigger = 0;
 unsigned long previousTimeAutoRadar = 0;
+char pythonHandshake = 'S';
 
 void setup() {
   // put your setup code here, to run once:
@@ -58,12 +59,17 @@ void toggleButton() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (Serial.available() > 0) {
+    pythonHandshake = Serial.read();
+  }
   currentTime = millis();
   toggleButton();
   if ((currentTime - previousTimeTrigger) > 30) {
     distance = captureDistance();
+    if (pythonHandshake == 'G') {
+      serialPrinter();
+    }
     previousTimeTrigger = currentTime;
-    serialPrinter();
   }
   myServo.write(servoAngle);
   if (!toggle) {

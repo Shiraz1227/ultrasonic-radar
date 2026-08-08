@@ -4,13 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import deque
 
-ser = serial.Serial(port="COM3",baudrate=115200,timeout=1)
+ser = serial.Serial(port="COM3",baudrate=115200)
 time.sleep(2)
 ser.reset_input_buffer() #As the python script is starting up, the Arduino sends random/old data in the buffer so this removes it. 
 distanceArray = np.array([0.0,0.0,0.0,0.0,0.0]) #Every 60ms, we will add a distance onto this array. 
 currentIndex = 0
 maxRange = 30  #max range for cm. 
-maxObjects = 180
+maxObjects = 10
 
 def hampelFilter(outlierFactor):
     median = np.median(distanceArray)
@@ -63,19 +63,22 @@ rawDistanceLine, = serialAxes.plot([],[],color="red",alpha=0.7,lw=1.5,label="Raw
 filteredDistanceLine, = serialAxes.plot([],[],color="green",lw=1.5,label="Filtered distance data")
 rawDistanceHistory = deque(maxlen=plotSamples)
 filteredDistanceHistory = deque(maxlen=plotSamples)
-fps = 30.0
-frameInterval = 1 / 30.0
-previousTime = 0
+
+frameCounter = 0
+ser.write(b"G") #Handshake
 
 while True:
-    if (ser.in_waiting != 0): #Checks if stuff is in serial buffer
+    if (ser.in_waiting != 0): #Checks if stuff is in serial buffer. Sends out every 30ms. 
         #Retrieves distance and angle from the arduino
         rawBytes = ser.readline() 
         serialString = rawBytes.decode("utf-8",errors="ignore")
         serialString.strip()
         serialStringArray = serialString.split(",")
         distance = serialStringArray[0]
-        angle = serialStringArray[1]
+        try:
+            angle = serialStringArray[1]
+        except:
+            angle = 0
         #Applies hampelFilter with window size of 5
         print(f"The distance is {distance}cm and the angle is {angle} degrees")
         distanceArray[currentIndex] = distance
@@ -88,10 +91,12 @@ while True:
         distances_cm.append(filteredDistance)
         rawDistanceHistory.append(float(distance))
         filteredDistanceHistory.append(filteredDistance)
-        #Draws the both axes when time interval has passed (30fps) so it doesn't keep refreshing
-        currentTime = time.time()
-        if (currentTime - previousTime) >= frameInterval:
+        #Draws the both axes when 5 readings have taken place giving matplotlib time to render the drawings. 
+        frameCounter += 1
+        increments = 1  #You can change this depending upon how many degrees you want it to go up in
+        if frameCounter % increments == 0: 
             #Polar axes artists
+            ser.write(b"S")
             sweepLine.set_data([angleRadians,angleRadians],[0,np.pi])
             target_dots.set_data(list(angles_rad),list(distances_cm))
             #Serial axes artists
@@ -101,4 +106,4 @@ while True:
             #Refreshes the figure/canvas
             fig.canvas.draw_idle()
             fig.canvas.flush_events()
-            previousTime = currentTime
+            ser.write(b"G") #Let arduino continue sending data
